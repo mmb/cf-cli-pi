@@ -17,10 +17,14 @@ BUILD_VERSION=$(cat ci/VERSION)
 BUILD_SHA=$(git rev-parse --short HEAD)
 BUILD_DATE=$(date -u +"%Y-%m-%d")
 
+BINARY=out/cf_${BUILD_VERSION}_${BUILD_DATE}
+
 GOARCH=arm \
 GOOS=linux \
   go build \
     -ldflags "-extldflags '-static' -X code.cloudfoundry.org/cli/version.binaryVersion=${BUILD_VERSION} -X code.cloudfoundry.org/cli/version.binarySHA=${BUILD_SHA} -X code.cloudfoundry.org/cli/version.binaryBuildDate=${BUILD_DATE}" \
-    -o out/cf-cli_linux_arm
+    -o $BINARY
 
-file out/cf-cli_linux_arm
+file $BINARY
+
+aws s3 cp $BINARY s3://cf-cli-pi
