@@ -29,6 +29,6 @@ file $BINARY
 
 aws s3 cp $BINARY s3://cf-cli-pi
 
-aws s3 ls cf-cli-pi | awk '{sub(".*","<li><a href=\"&\">&</a></li>",$4); print $4}' > index.html
+aws s3 ls cf-cli-pi/cf | awk '{sub(".*","<li><a href=\"&\">&</a></li>",$4); print $4}' > index.html
 
 aws s3 cp index.html s3://cf-cli-pi
