@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir -p $GOPATH/src/github.com/cloudfoundry
+cd $GOPATH/src/github.com/cloudfoundry
+
 git clone https://github.com/cloudfoundry/cli
 
 cd cli
@@ -14,6 +17,6 @@ GOARCH=arm \
 GOOS=linux \
   go build \
     -ldflags "-extldflags '-static' -X code.cloudfoundry.org/cli/version.binaryVersion=${BUILD_VERSION} -X code.cloudfoundry.org/cli/version.binarySHA=${BUILD_SHA} -X code.cloudfoundry.org/cli/version.binaryBuildDate=${BUILD_DATE}" \
-    -o ../cf-cli_linux_arm
+    -o out/cf-cli_linux_arm
 
-file !$
+file out/cf-cli_linux_arm
