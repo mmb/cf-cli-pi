@@ -1,4 +1,4 @@
 language: go
 
-install:
+install: true
 script: ./build
