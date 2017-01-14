@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION_TO_BUILD=$(cat version_to_build)
+
 mkdir -p $GOPATH/src/github.com/cloudfoundry
 cd $GOPATH/src/github.com/cloudfoundry
 
@@ -7,7 +9,7 @@ git clone https://github.com/cloudfoundry/cli
 
 cd cli
 
-git checkout v$(cat ../version_to_build)
+git checkout v${VERSION_TO_BUILD}
 
 BUILD_VERSION=$(cat ci/VERSION)
 BUILD_SHA=$(git rev-parse --short HEAD)
