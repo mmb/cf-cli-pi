@@ -1,6 +1,6 @@
 language: go
 
-install: true
+install: pip install awscli
 script: ./build
 env:
   global:
