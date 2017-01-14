@@ -2,10 +2,10 @@
 
 VERSION_TO_BUILD=$(cat version_to_build)
 
-mkdir -p $GOPATH/src/github.com/cloudfoundry
-cd $GOPATH/src/github.com/cloudfoundry
+mkdir -p $GOPATH/src/code.cloudfoundry.org
+cd $GOPATH/src/code.cloudfoundry.org
 
-git clone https://github.com/cloudfoundry/cli
+git clone https://code.cloudfoundry.org/cli
 
 cd cli
 
