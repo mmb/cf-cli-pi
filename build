@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 VERSION_TO_BUILD=$(cat version_to_build)
 
 mkdir -p $GOPATH/src/code.cloudfoundry.org
 cd $GOPATH/src/code.cloudfoundry.org
 
-git clone https://code.cloudfoundry.org/cli
+git clone https://github.com/cloudfoundry/cli
 
 cd cli
 
