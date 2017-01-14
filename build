@@ -28,3 +28,7 @@ GOOS=linux \
 file $BINARY
 
 aws s3 cp $BINARY s3://cf-cli-pi
+
+aws s3 ls cf-cli-pi | awk '{sub(".*","<a href=\"&\">&</a>",$4); print}' > index.html
+
+aws s3 cp index.html s3://cf-cli-pi
