@@ -4,14 +4,16 @@ set -e
 
 VERSION_TO_BUILD=$(cat version_to_build)
 
-mkdir -p $GOPATH/src/code.cloudfoundry.org
-cd $GOPATH/src/code.cloudfoundry.org
+mkdir -p "$GOPATH/src/code.cloudfoundry.org"
+cd "$GOPATH/src/code.cloudfoundry.org"
 
 git clone https://github.com/cloudfoundry/cli
 
 cd cli
 
-git checkout v${VERSION_TO_BUILD}
+git checkout "v${VERSION_TO_BUILD}"
+
+bin/generate-language-resources
 
 BUILD_VERSION=$(cat ci/VERSION)
 BUILD_SHA=$(git rev-parse --short HEAD)
@@ -23,12 +25,14 @@ GOARCH=arm \
 GOOS=linux \
   go build \
     -ldflags "-extldflags '-static' -X code.cloudfoundry.org/cli/version.binaryVersion=${BUILD_VERSION} -X code.cloudfoundry.org/cli/version.binarySHA=${BUILD_SHA} -X code.cloudfoundry.org/cli/version.binaryBuildDate=${BUILD_DATE}" \
-    -o $BINARY
+    -o "$BINARY"
 
-file $BINARY
+file "$BINARY"
 
-aws s3 cp $BINARY s3://cf-cli-pi
+if [[ "$TRAVIS_BRANCH" == 'master' ]]; then
+  aws s3 cp "$BINARY" s3://cf-cli-pi
 
-aws s3 ls cf-cli-pi/cf | awk '{sub(".*","<li><a href=\"&\">&</a></li>",$4); print $4}' > index.html
+  aws s3 ls cf-cli-pi/cf | tac | awk '{sub(".*","<li><a href=\"&\">&</a></li>",$4); print $4}' > index.html
 
-aws s3 cp index.html s3://cf-cli-pi
+  aws s3 cp index.html s3://cf-cli-pi
+fi
