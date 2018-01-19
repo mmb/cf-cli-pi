@@ -7,13 +7,18 @@ VERSION_TO_BUILD=$(cat version_to_build)
 mkdir -p "$GOPATH/src/code.cloudfoundry.org"
 cd "$GOPATH/src/code.cloudfoundry.org"
 
+git clone https://github.com/cloudfoundry/cli-i18n
+pushd cli-i18n
+  bin/generate-language-resources
+popd
+
 git clone https://github.com/cloudfoundry/cli
 
 cd cli
 
 git checkout "v${VERSION_TO_BUILD}"
 
-bin/generate-language-resources
+mv ../cli-i18n/resources/i18n_resources.go i18n/resources
 
 BUILD_VERSION=$(cat ci/VERSION)
 BUILD_SHA=$(git rev-parse --short HEAD)
