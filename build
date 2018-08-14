@@ -20,7 +20,7 @@ git checkout "v${VERSION_TO_BUILD}"
 
 mv ../cli-i18n/resources/i18n_resources.go i18n/resources
 
-BUILD_VERSION=$(cat ci/VERSION)
+BUILD_VERSION=$(cat BUILD_VERSION)
 BUILD_SHA=$(git rev-parse --short HEAD)
 BUILD_DATE=$(date -u +"%Y-%m-%d")
 
@@ -34,7 +34,7 @@ GOOS=linux \
 
 file "$BINARY"
 
-if [[ "$TRAVIS_BRANCH" == 'master' ]]; then
+if [ "$TRAVIS_PULL_REQUEST" = 'false' ] && [ "$TRAVIS_BRANCH" = 'master' ]; then
   aws s3 cp "$BINARY" s3://cf-cli-pi
 
   aws s3 ls cf-cli-pi/cf | tac | awk '{sub(".*","<li><a href=\"&\">&</a></li>",$4); print $4}' > index.html
