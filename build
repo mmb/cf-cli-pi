@@ -2,6 +2,7 @@
 
 set -e
 
+WORKDIR=$PWD
 VERSION_TO_BUILD=$(cat version_to_build)
 
 mkdir -p "$GOPATH/src/code.cloudfoundry.org"
@@ -9,6 +10,8 @@ cd "$GOPATH/src/code.cloudfoundry.org"
 
 git clone https://github.com/cloudfoundry/cli-i18n
 pushd cli-i18n
+  # The workaround in this script assumes the existence of /go/src/github.com
+  git apply "$WORKDIR/patch/generate-language-resources-remove-workaround"
   bin/generate-language-resources
 popd
 

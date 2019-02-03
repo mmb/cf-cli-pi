@@ -1,0 +1,16 @@
+diff --git a/bin/generate-language-resources b/bin/generate-language-resources
+index bad2a5a..6337bb8 100755
+--- a/bin/generate-language-resources
++++ b/bin/generate-language-resources
+@@ -2,11 +2,6 @@
+ 
+ set -e
+ 
+-# BEGIN workaround for go get regression introduced in go 1.11.3, remove once go 1.11.4 is released.
+-mkdir -p $GOPATH/src/github.com
+-cp -r /go/src/github.com/* $GOPATH/src/github.com/
+-# END workaround
+-
+ go get github.com/jteeuwen/go-bindata/...
+ go-bindata --version
+ go-bindata -nometadata  -pkg resources -ignore ".go" -o resources/i18n_resources.go resources/*.all.json
